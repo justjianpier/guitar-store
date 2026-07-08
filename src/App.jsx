@@ -6,12 +6,18 @@ import { db } from "./db/db";
 function App() {
   const [cart, setCart] = useState([]);
 
+  const MIN_QUANTITY = 1;
+  const MAX_QUANTITY = 5;
+
   function addItem(item) {
     const itemExist = cart.some((guitar) => guitar.id === item.id);
 
     if (itemExist) {
       const updatedItem = cart.map((guitar) => {
         if (guitar.id === item.id) {
+          if (guitar.quantity >= MAX_QUANTITY) {
+            return guitar;
+          }
           return {
             ...guitar,
             quantity: guitar.quantity + 1,
@@ -32,7 +38,7 @@ function App() {
 
   function increaseQuantity(id) {
     const updatedItem = cart.map((item) => {
-      if (item.id === id) {
+      if (item.id === id && item.quantity < MAX_QUANTITY) {
         return {
           ...item,
           quantity: item.quantity + 1,
@@ -46,18 +52,20 @@ function App() {
 
   function decreaseQuantity(id) {
     const updatedItem = cart.map((item) => {
-      if(item.id === id) {
+      if (item.id === id && item.quantity > MIN_QUANTITY) {
         return {
           ...item,
-          quantity: item.quantity - 1
-        }
+          quantity: item.quantity - 1,
+        };
+      } else {
+        return item;
       }
-    })
-    setCart(updatedItem)
+    });
+    setCart(updatedItem);
   }
 
   function emptyCart() {
-    setCart([])
+    setCart([]);
   }
 
   return (
@@ -76,7 +84,7 @@ function App() {
 
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {db.map((guitar) => (
-            <Guitar key={guitar.id} guitar={guitar} addItem={addItem} />
+            <Guitar key={guitar.id} cart={cart} guitar={guitar} addItem={addItem} />
           ))}
         </div>
       </main>
