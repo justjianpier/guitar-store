@@ -1,5 +1,8 @@
-export function Guitar({ guitar, addItem }) {
+export function Guitar({ cart, guitar, addItem }) {
   const { name, image, description, price } = guitar;
+
+  const cartItem = cart.find((item) => item.id === guitar.id);
+
   return (
     <div className="flex gap-4 items-center">
       <img className="w-30" src={`/img/${image}.jpg`} alt={name} />
@@ -9,8 +12,9 @@ export function Guitar({ guitar, addItem }) {
         <p>{description}</p>
         <p className="text-4xl font-black text-amber-400">${price}</p>
         <button
-          className="bg-gray-950 hover:bg-gray-700 text-white px-6 py-2 uppercase font-bold cursor-pointer"
+          className="bg-gray-950 hover:bg-gray-700 text-white px-6 py-2 uppercase font-bold cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
           onClick={() => addItem(guitar)}
+          disabled={cartItem?.quantity >= 5}
         >
           Agregar al carrito
         </button>

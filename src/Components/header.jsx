@@ -13,6 +13,7 @@ export function Header({
   function handleToggle() {
     setIsActive((prev) => !prev);
   }
+
   return (
     <header className="relative h-50 flex items-end">
       <img
@@ -58,20 +59,22 @@ export function Header({
                             />
                           </td>
                           <td>{item.name}</td>
-                          <td>$ {item.price}</td>
+                          <td>$ {item.price * item.quantity}</td>
                           <td>
                             <div className="flex items-center justify-center gap-4">
                               <div className="flex items-center gap-4">
                                 <button
-                                  className="bg-black text-white p-2 rounded"
+                                  className="bg-black text-white p-2 rounded disabled:opacity-50 cursor-pointer"
                                   onClick={() => decreaseQuantity(item.id)}
+                                  disabled={item.quantity <= 1}
                                 >
                                   -
                                 </button>
                                 <p>{item.quantity}</p>
                                 <button
-                                  className="bg-black text-white p-2 rounded"
+                                  className="bg-black text-white p-2 rounded disabled:opacity-50 cursor-pointer"
                                   onClick={() => increaseQuantity(item.id)}
+                                  disabled={item.quantity >= 5}
                                 >
                                   +
                                 </button>
