@@ -56,6 +56,10 @@ function App() {
     setCart(updatedItem)
   }
 
+  function emptyCart() {
+    setCart([])
+  }
+
   return (
     <>
       <Header
@@ -63,6 +67,7 @@ function App() {
         deleteItem={deleteItem}
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
+        emptyCart={emptyCart}
       />
       <main className="max-w-7xl w-[90%] mx-auto py-8">
         <h1 className="text-5xl font-black text-amber-400 text-center pb-8">
