@@ -1,10 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Guitar } from "./Components/guitar";
 import { Header } from "./Components/header";
 import { db } from "./db/db";
+import { Alert } from "./Components/alert";
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    if (!alert) return;
+
+    const timer = setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [alert]);
+
+  function showAlert(message, type = "success") {
+    setAlert({ message, type });
+  }
 
   const MIN_QUANTITY = 1;
   const MAX_QUANTITY = 5;
@@ -30,10 +46,13 @@ function App() {
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
     }
+
+    showAlert(`${item.name} fue agregado correctamente`);
   }
 
   function deleteItem(id) {
     setCart(cart.filter((guitar) => guitar.id !== id));
+    showAlert("Se eliminó del carrito correctamente", "error");
   }
 
   function increaseQuantity(id) {
@@ -70,6 +89,7 @@ function App() {
 
   return (
     <>
+      {alert && <Alert alert={alert} />}
       <Header
         cart={cart}
         deleteItem={deleteItem}
@@ -84,7 +104,12 @@ function App() {
 
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {db.map((guitar) => (
-            <Guitar key={guitar.id} cart={cart} guitar={guitar} addItem={addItem} />
+            <Guitar
+              key={guitar.id}
+              cart={cart}
+              guitar={guitar}
+              addItem={addItem}
+            />
           ))}
         </div>
       </main>
