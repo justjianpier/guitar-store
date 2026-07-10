@@ -1,8 +1,9 @@
+import { useCart } from "./hooks/useCart";
+
 import { Header } from "./Components/header";
 import { Guitar } from "./Components/guitar";
 import { Alert } from "./Components/alert";
 import { db } from "./db/db";
-import { useCart } from "./hooks/useCart";
 
 function App() {
   const {
