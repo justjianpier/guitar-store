@@ -1,4 +1,12 @@
-export function Guitar({ cart, guitar, addItem }) {
+import { Cart, GuitarItem } from "../types";
+
+type GuitarProps = {
+  cart: Cart[];
+  guitar: GuitarItem;
+  addItem: (guitar: GuitarItem) => void;
+};
+
+export function Guitar({ cart, guitar, addItem }: GuitarProps) {
   const { name, image, description, price } = guitar;
 
   const cartItem = cart.find((item) => item.id === guitar.id);
@@ -14,7 +22,7 @@ export function Guitar({ cart, guitar, addItem }) {
         <button
           className="bg-gray-950 hover:bg-gray-700 text-white px-6 py-2 uppercase font-bold cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
           onClick={() => addItem(guitar)}
-          disabled={cartItem?.quantity >= 5}
+          disabled={(cartItem?.quantity ?? 0) >= 5}
         >
           Agregar al carrito
         </button>
