@@ -1,4 +1,13 @@
+import type { Cart, GuitarItem } from "../types";
 import { CartItem } from "./cart-item";
+
+type CartProps = {
+  cart: Cart[];
+  increaseQuantity: (id: GuitarItem["id"]) => void;
+  decreaseQuantity: (id: GuitarItem["id"]) => void;
+  deleteItem: (id: GuitarItem["id"]) => void;
+  emptyCart: () => void;
+};
 
 export function Cart({
   cart,
@@ -6,8 +15,7 @@ export function Cart({
   decreaseQuantity,
   deleteItem,
   emptyCart,
-}) {
-    
+}: CartProps) {
   return (
     <>
       <table className="w-full">

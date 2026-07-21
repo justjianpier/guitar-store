@@ -1,7 +1,16 @@
 import { useState } from "react";
 
 import { ShoppingCart } from "lucide-react";
+import type { Cart as CartType, GuitarItem } from "../types";
 import { Cart } from "./cart";
+
+type HeaderProps = {
+  cart: CartType[];
+  deleteItem: (id: GuitarItem["id"]) => void;
+  increaseQuantity: (id: GuitarItem["id"]) => void;
+  decreaseQuantity: (id: GuitarItem["id"]) => void;
+  emptyCart: (id: GuitarItem["id"]) => void;
+};
 
 export function Header({
   cart,
@@ -9,7 +18,7 @@ export function Header({
   increaseQuantity,
   decreaseQuantity,
   emptyCart,
-}) {
+}: HeaderProps) {
   const [isActive, setIsActive] = useState(false);
 
   function handleToggle() {
