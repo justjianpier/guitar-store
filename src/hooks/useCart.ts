@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import type { Alert, Cart, GuitarItem } from "../types";
 
 export const useCart = () => {
-  const [cart, setCart] = useState([]);
-  const [alert, setAlert] = useState(null);
+  const [cart, setCart] = useState<Cart[]>([]);
+  const [alert, setAlert] = useState<Alert | null>(null);
 
   useEffect(() => {
     if (!alert) return;
@@ -14,14 +15,14 @@ export const useCart = () => {
     return () => clearTimeout(timer);
   }, [alert]);
 
-  function showAlert(message, type = "success") {
+  function showAlert(message: string, type = "success") {
     setAlert({ message, type });
   }
 
   const MIN_QUANTITY = 1;
   const MAX_QUANTITY = 5;
 
-  function addItem(item) {
+  function addItem(item: GuitarItem) {
     const itemExist = cart.some((guitar) => guitar.id === item.id);
 
     if (itemExist) {
@@ -46,12 +47,12 @@ export const useCart = () => {
     showAlert(`${item.name} fue agregado correctamente`);
   }
 
-  function deleteItem(id) {
+  function deleteItem(id: GuitarItem["id"]) {
     setCart(cart.filter((guitar) => guitar.id !== id));
     showAlert("Se eliminó del carrito correctamente", "error");
   }
 
-  function increaseQuantity(id) {
+  function increaseQuantity(id: GuitarItem["id"]) {
     const updatedItem = cart.map((item) => {
       if (item.id === id && item.quantity < MAX_QUANTITY) {
         return {
@@ -65,7 +66,7 @@ export const useCart = () => {
     setCart(updatedItem);
   }
 
-  function decreaseQuantity(id) {
+  function decreaseQuantity(id: GuitarItem["id"]) {
     const updatedItem = cart.map((item) => {
       if (item.id === id && item.quantity > MIN_QUANTITY) {
         return {
